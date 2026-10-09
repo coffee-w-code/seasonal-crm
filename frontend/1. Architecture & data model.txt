@@ -1,0 +1,23 @@
+1. Architecture & data model
+        ↓
+2. Tenant/business security
+        ↓
+3. Django models + constraints
+        ↓
+4. Services/business logic
+        ↓
+5. Secure API endpoints
+        ↓
+6. Permissions
+        ↓
+7. Audit/history
+        ↓
+8. API testing
+        ↓
+9. React Orders UI
+        ↓
+10. Frontend authorization + validation
+        ↓
+11. Inventory integration
+        ↓
+12. Final security testing

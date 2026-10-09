@@ -1,0 +1,32 @@
+Seasonal CRM
+│
+├── Authentication                 ✅
+│   ├── Login
+│   ├── Session authentication
+│   └── Protected routes
+│
+├── Application Layout             ✅
+│   ├── Sidebar
+│   ├── Topbar
+│   └── Dark theme
+│
+├── Dashboard                      ✅
+│   ├── Real stock totals
+│   ├── Product count
+│   ├── Location overview
+│   ├── Recent activity
+│   ├── Movement summary
+│   ├── Low-stock alerts
+│   └── AI Assistant
+│
+├── Inventory                      ✅
+│   ├── Inventory list
+│   ├── Receive Stock
+│   ├── Transfer Stock
+│   ├── Dispatch Stock
+│   └── Movement history API
+│
+├── Orders                         ⏳
+├── Customers                      ⏳
+├── AI Assistant                   🟡
+└── Settings                       ⏳

@@ -1,0 +1,161 @@
+from django.urls import path
+from .onboarding import create_business_view
+
+from .authentication import (
+    csrf_view,
+    login_view,
+    logout_view,
+    me_view,
+    profile_view,
+    avatar_view,
+    change_password_view,
+    sessions_view,
+    security_events_view,
+    revoke_session_view,
+    revoke_other_sessions_view,
+    two_factor_status_view,
+    two_factor_setup_view,
+    two_factor_verify_setup_view,
+    two_factor_login_verify_view,
+    two_factor_recovery_code_status_view,
+    regenerate_two_factor_recovery_codes_view,
+    two_factor_authenticator_change_view,
+    two_factor_authenticator_change_verify_view,
+    disable_two_factor_view,
+)
+
+from .business import (
+    business_list_view,
+    current_business_view,
+    select_business_view,
+)
+
+
+urlpatterns = [
+    # Authentication
+    path(
+        "csrf/",
+        csrf_view,
+        name="csrf",
+    ),
+    path(
+        "login/",
+        login_view,
+        name="login",
+    ),
+    path(
+        "logout/",
+        logout_view,
+        name="logout",
+    ),
+    path(
+        "me/",
+        me_view,
+        name="me",
+    ),
+
+    path(
+        "profile/",
+        profile_view,
+        name="profile",
+    ),
+    path(
+        "login/2fa/",
+        two_factor_login_verify_view,
+        name="two_factor_login_verify",
+    ),
+
+    # Business / tenant context
+    path(
+        "businesses/",
+        business_list_view,
+        name="business_list",
+    ),
+    path(
+        "businesses/current/",
+        current_business_view,
+        name="current_business",
+    ),
+    path(
+        "businesses/select/",
+        select_business_view,
+        name="select_business",
+    ),
+    path(
+        "onboarding/business/",
+        create_business_view,
+        name="create_business",
+    ),
+    path(
+        "profile/avatar/",
+        avatar_view,
+        name="avatar",
+    ),
+    path(
+        "change-password/",
+        change_password_view,
+        name="change_password",
+    ),
+    path(
+        "sessions/",
+        sessions_view,
+        name="sessions",
+    ),
+
+    path(
+        "security-events/",
+        security_events_view,
+        name="security_events",
+    ),
+
+    path(
+        "sessions/<int:session_id>/",
+        revoke_session_view,
+        name="revoke_session",
+    ),
+    path(
+        "sessions/revoke-others/",
+        revoke_other_sessions_view,
+        name="revoke_other_sessions",
+    ),
+    path(
+        "2fa/",
+        two_factor_status_view,
+        name="two_factor_status",
+    ),
+    path(
+        "2fa/setup/",
+        two_factor_setup_view,
+        name="two_factor_setup",
+    ),
+    path(
+        "2fa/setup/verify/",
+        two_factor_verify_setup_view,
+        name="two_factor_verify_setup",
+    ),
+    path(
+        "2fa/recovery-codes/",
+        two_factor_recovery_code_status_view,
+        name="two_factor_recovery_code_status",
+    ),
+    path(
+        "2fa/recovery-codes/regenerate/",
+        regenerate_two_factor_recovery_codes_view,
+        name="regenerate_two_factor_recovery_codes",
+    ),
+    path(
+        "2fa/authenticator/change/",
+        two_factor_authenticator_change_view,
+        name="two_factor_authenticator_change",
+    ),
+    path(
+        "2fa/authenticator/change/verify/",
+        two_factor_authenticator_change_verify_view,
+        name="two_factor_authenticator_change_verify",
+    ),
+    path(
+        "2fa/disable/",
+        disable_two_factor_view,
+        name="disable_two_factor",
+    ),
+]

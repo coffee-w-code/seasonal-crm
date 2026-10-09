@@ -1,0 +1,51 @@
+# Python virtual environments
+crm_env/
+venv/
+.venv/
+
+# Python generated files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Secrets and environment configuration
+.env*
+!.env.example
+!.env.example.txt
+
+# Credentials and session tokens
+cookies.txt
+login.json
+
+# Local databases and backups
+*.sqlite3
+*.sqlite3-*
+*.db
+*.backup
+*.bak
+
+# Uploaded media and backup code
+media/
+inventory_backup/
+
+# Archives
+*.zip
+
+# Frontend dependencies and builds
+node_modules/
+dist/
+dist-ssr/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# SQLite database backup files
+*.sqlite3.backup*
+
+# User-uploaded profile images
+profiles/avatars/

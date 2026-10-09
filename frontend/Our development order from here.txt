@@ -1,0 +1,31 @@
+Our development order from here
+
+1. Inventory Movement History ← next
+
+2. Inventory validation & edge cases
+
+Can't transfer more than available
+Can't dispatch more than available
+Quantity must be positive
+Proper backend error messages
+Loading/success/error states
+
+3. Product Management
+
+Add product
+Edit product
+Deactivate product
+Product details
+
+4. Inventory Audit / Discrepancy
+
+Expected vs actual stock
+Investigation logs
+Who performed the movement
+Suspicious discrepancies
+
+5. Orders
+
+6. Dashboard & reports
+
+7. AI Assistant
