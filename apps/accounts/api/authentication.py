@@ -137,6 +137,7 @@ def _profile_data(user):
             if profile.avatar
             else None
         ),
+        "default_landing_page": profile.default_landing_page,
     }
 
 def _get_client_ip(request):
@@ -817,6 +818,31 @@ def profile_view(request):
         )
 
     # -----------------------------------------
+    # Validate default landing page
+    # -----------------------------------------
+    landing_page = None
+
+    if "default_landing_page" in request.data:
+        landing_page = request.data["default_landing_page"]
+
+        allowed_pages = {
+            "/",
+            "/inventory",
+            "/orders",
+            "/customers",
+        }
+
+        if landing_page not in allowed_pages:
+            return Response(
+                {
+                    "status": "error",
+                    "code": "INVALID_LANDING_PAGE",
+                    "message": "Invalid Default Landing Page.",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    # -----------------------------------------
     # Update
     # -----------------------------------------
     user.first_name = first_name
@@ -836,12 +862,17 @@ def profile_view(request):
     )
 
     profile.phone_number = phone_number
-    profile.save(
-        update_fields=[
-            "phone_number",
-            "updated_at",
-        ]
-    )
+
+    update_fields = [
+        "phone_number",
+        "updated_at",
+    ]
+
+    if "default_landing_page" in request.data:
+        profile.default_landing_page = landing_page
+        update_fields.append("default_landing_page")
+
+    profile.save(update_fields=update_fields)
     return Response(
         {
             "status": "success",
