@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
     getCsrfToken,
     login,
+    getProfile,
     verifyTwoFactorLogin,
 } from "../../api/auth";
 import { useAuth } from "./AuthContext";
@@ -11,6 +12,28 @@ import { useAuth } from "./AuthContext";
 function Login() {
     const navigate = useNavigate();
     const { setUser } = useAuth();
+
+    async function navigateToDefaultLandingPage() {
+        const allowedPages = [
+            "/",
+            "/inventory",
+            "/orders",
+            "/customers",
+        ];
+
+        try {
+            const profileResponse = await getProfile();
+            const savedPage = profileResponse.user?.default_landing_page;
+
+            navigate(
+                allowedPages.includes(savedPage) ? savedPage : "/",
+                { replace: true }
+            );
+        } catch (error) {
+            console.error("Unable to load default landing page:", error);
+            navigate("/", { replace: true });
+        }
+    }
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -40,7 +63,8 @@ function Login() {
             }
 
             setUser(data.user);
-            navigate("/");
+            await navigateToDefaultLandingPage();
+
         } catch (error) {
             console.error("Login failed:", error);
 
@@ -69,7 +93,8 @@ function Login() {
             );
 
             setUser(data.user);
-            navigate("/");
+            await navigateToDefaultLandingPage();
+
         } catch (error) {
             console.error("Two-factor verification failed:", error);
 

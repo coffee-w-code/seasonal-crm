@@ -312,11 +312,7 @@ function AccountSettings({
                 title="Preferences"
                 onBack={() => setAccountSection("main")}
             >
-                <div className="rounded-lg border border-dashed border-slate-300 px-4 py-10 text-center dark:border-slate-700">
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Account preferences will be added here.
-                    </p>
-                </div>
+                <DefaultLandingPagePreference />
             </AccountSubPage>
         );
     }
@@ -2261,3 +2257,122 @@ function PlaceholderSettings({
 }
 
 export default SettingsPage;
+
+function DefaultLandingPagePreference() {
+    const { profile, loading, updateProfile } = useProfile();
+
+    const [ selectedPage, setSelectedPage] = useState("/");
+    const [saving, setSaving] = useState(false);
+    const [ error, setError] = useState("");
+    const [ success, setSuccess] = useState("");
+
+    const landingPages = [
+        { value: "/", label: "Dashboard" },
+        { value: "/inventory", label: "Inventory" },
+        { value: "/orders", label: "Orders" },
+        { value: "/customers", label: "Customers" },
+    ];
+
+    useEffect(() => {
+        if (profile?.default_landing_page){
+            const savedPage = landingPages.some(
+                (page) => page.value == profile.default_landing_page
+            )
+                ? profile.default_landing_page
+                :"/";
+            setSelectedPage(savedPage);
+        }
+    },[profile]);
+
+    async function handleSave() {
+        setSaving(true);
+        setError("");
+        setSuccess("");
+
+        try {
+            await updateProfile({
+                default_landing_page: selectedPage,
+            });
+
+            setSuccess ("Default Landing Page Saved Successfully ! ");
+        } catch (err) {
+            setError(
+                err.response?.data?.message ||
+                "Unable to save your preference. Please try again."
+            );
+        } finally {
+            setSaving (false);
+        }
+    }
+
+    if (loading) {
+        return (
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+                Loading your preferences...
+            </p>
+        );
+    }
+
+    return (
+        <div className="space-y-5">
+            <div>
+                <h3 className="text-base font-semibold text-slate-900 dark:text-white">
+                    Default landing page
+                </h3>
+
+                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                    Choose which page opens after you sign in.
+                    This setting applies to your account
+                </p>
+            </div>
+
+             <div>
+                <label
+                    htmlFor="default-landing-page"
+                    className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-200"
+                >
+                    Open this page by default
+                </label>
+
+                <select
+                    id="default-landing-page"
+                    value={selectedPage}
+                    onChange={(event) => {
+                        setSelectedPage(event.target.value);
+                        setError("");
+                        setSuccess("");
+                    }}
+                    disabled={saving}
+                    className="min-h-11 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 disabled:opacity-60 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+                >
+                    {landingPages.map((page) => (
+                        <option key={page.value} value={page.value}>
+                            {page.label}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            {error && (
+                <p role="alert" className="text-sm text-red-600 dark:text-red-400">
+                    {error}
+                </p>
+            )}
+
+            {success && (
+                <p role="status" className="text-sm text-emerald-600 dark:text-emerald-400">
+                    {success}
+                </p>
+            )}
+
+            <button
+                type="button"
+                onClick={handleSave}
+                disabled={saving || loading}
+                className="min-h-11 rounded-xl bg-purple-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+                {saving ? "Saving..." : "Save preference"}
+            </button>
+        </div>
+    );
+}
